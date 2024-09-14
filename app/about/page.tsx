@@ -2,7 +2,7 @@ function AboutPage() {
     return (
       <section>
         <h1 className='flex flex-wrap gap-2 sm:gap-x-6 items-center justify-center text-4xl font-bold leading-none tracking-wide sm:text-6xl'>
-          We Love
+          We love
           <span className='capitalize bg-primary py-2 px-4 border rounded-xl tracking-widest text-white'>
             store
           </span>

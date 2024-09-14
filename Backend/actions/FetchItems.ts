@@ -1,3 +1,4 @@
+"use server";
 import { SupabaseClient, PostgrestError } from "@supabase/supabase-js";
 import supabase from "../supabase";
 

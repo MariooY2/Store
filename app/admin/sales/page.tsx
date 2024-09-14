@@ -1,4 +1,4 @@
-function AdminPage() {
+function page() {
     return (
         <div>
             
@@ -6,4 +6,4 @@ function AdminPage() {
     )
 }
 
-export default AdminPage
+export default page
