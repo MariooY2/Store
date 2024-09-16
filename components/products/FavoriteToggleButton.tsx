@@ -6,10 +6,10 @@ import { favoriteAdder } from "@/Backend/actions/FavoriteToggler";
 
 function FavoriteToggleButton({
   productId,
-  fav,
+  fav=false,
 }: {
   productId: number;
-  fav: boolean;
+  fav?: boolean;
 }) {
   async function Toggler() {
     await favoriteAdder(productId);
