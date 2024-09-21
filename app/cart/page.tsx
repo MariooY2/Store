@@ -11,6 +11,8 @@ import Image from "next/image";
 import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
 import { getFeaturedByEmailAndProductId } from "@/Backend/actions/FavoriteToggler";
 
+import Button from "./Button";
+
 interface Product {
   id: number;
   name: string;
@@ -34,7 +36,7 @@ async function CartPage() {
   if (!cartItems || cartItems.length === 0) {
     return <SectionTitle text="Empty cart" />;
   }
-  
+
   const user = await currentUser();
   const email = user?.primaryEmailAddress?.emailAddress;
   if (!email) {
@@ -45,7 +47,10 @@ async function CartPage() {
   const cartItemsWithDetails = await Promise.all(
     cartItems.map(async (cartItem) => {
       // Fetch the product details based on the Item_id in the cart
-      const productDetails = await FetchItems(cartItem.Item_id.toString(), "id");
+      const productDetails = await FetchItems(
+        cartItem.Item_id.toString(),
+        "id"
+      );
 
       return {
         ...cartItem,
@@ -108,12 +113,13 @@ async function CartPage() {
                     </CardContent>
                   </Card>
                 </Link>
-                <div className="absolute bottom-8 right-8 z-5">
+                <div className="absolute bottom-8 right-8 z-5 flex flex-col items-center gap-4 justify-center">
                   <FavoriteToggleButton
                     productId={productId}
                     fav={fav}
                     email={email}
                   />
+                  <Button email={email} Item_id={productId} />
                 </div>
               </article>
             );
@@ -132,7 +138,9 @@ async function CartPage() {
             </div>
             <div className="flex justify-between mb-2">
               <span>Shipping</span>
-              <span>{formatCurrency(500)} {/* Placeholder shipping fee */}</span>
+              <span>
+                {formatCurrency(500)} {/* Placeholder shipping fee */}
+              </span>
             </div>
             <hr className="my-4" />
             <div className="flex justify-between font-bold text-lg">
