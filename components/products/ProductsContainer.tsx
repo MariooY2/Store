@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import FetchItems from "@/Backend/actions/FetchItems";
 import Link from "next/link";
-
+import { currentUser } from "@clerk/nextjs/server";
 async function ProductsContainer({
   layout,
   search,
@@ -13,10 +13,12 @@ async function ProductsContainer({
   layout: string;
   search: string;
 }) {
+  const user = await currentUser();
+  const email: undefined | string = user?.primaryEmailAddress?.emailAddress;
   const products = await FetchItems(search);
-  let totalProducts:number;
+  let totalProducts: number;
   if (!products) {
-    totalProducts=0;
+    totalProducts = 0;
   } else {
     totalProducts = products.length;
   }
@@ -60,9 +62,9 @@ async function ProductsContainer({
             Sorry, no products matched your search...
           </h5>
         ) : layout === "grid" ? (
-          <ProductsGrid products={products || []} />
+          <ProductsGrid products={products || []} email={email} />
         ) : (
-          <ProductsList products={products || []} />
+          <ProductsList products={products || []} email={email} />
         )}
       </div>
     </>

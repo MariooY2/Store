@@ -17,7 +17,13 @@ interface Product {
   clerkId: string;
 }
 
- function ProductsGrid({ products }: { products: Product[] }) {
+function ProductsGrid({
+  products,
+  email,
+}: {
+  products: Product[];
+  email: string | undefined;
+}) {
   return (
     <div className="pt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {products?.map(async (product) => {
@@ -25,7 +31,7 @@ interface Product {
         const productId = product.id;
         const dollarsAmount = formatCurrency(price);
         const fav = await getFeaturedByEmailAndProductId(productId);
-        console.log(fav)
+        //console.log(fav)
         return (
           <article key={productId} className="group relative">
             <Link href={`/products/${productId}`}>
@@ -51,7 +57,11 @@ interface Product {
               </Card>
             </Link>
             <div className="absolute top-7 right-7 z-5">
-              <FavoriteToggleButton productId={productId} fav={fav}/>
+              <FavoriteToggleButton
+                productId={productId}
+                fav={fav}
+                email={email}
+              />
             </div>
           </article>
         );

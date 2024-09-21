@@ -2,17 +2,15 @@
 import supabase from "../supabase";
 import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+
 export async function favoriteAdder(productId: number) {
   const user = await currentUser();
-
   if (!user) {
     console.error("User not logged in");
     return;
   }
 
-  // Retrieve the user's email
   const email = user.primaryEmailAddress?.emailAddress;
-
   if (!email) {
     console.error("User email not found");
     return;
@@ -33,6 +31,7 @@ export async function favoriteAdder(productId: number) {
   }
   revalidatePath("/");
   revalidatePath("/products");
+  revalidatePath("/favorites");
   if (favoriteData) {
     // If the product is already in the favorites, toggle the favorite status
     const newFavoriteStatus = !favoriteData.favorite;

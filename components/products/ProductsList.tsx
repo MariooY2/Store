@@ -2,7 +2,7 @@ import { formatCurrency } from "@/utils/formatCurrency";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-
+import { getFeaturedByEmailAndProductId } from "@/Backend/actions/FavoriteToggler";
 interface Product {
   id: number;
   name: string;
@@ -17,13 +17,20 @@ interface Product {
 }
 
 import FavoriteToggleButton from "./FavoriteToggleButton";
-function ProductsList({ products }: { products: Product[] }) {
+async function ProductsList({
+  products,
+  email,
+}: {
+  products: Product[];
+  email?: string | undefined;
+}) {
   return (
     <div className="mt-12 grid gap-y-8">
-      {products.map((product) => {
+      {products.map(async (product) => {
         const { name, price, image, company } = product;
         const dollarsAmount = formatCurrency(price);
         const productId = product.id;
+        const fav = await getFeaturedByEmailAndProductId(productId);
         return (
           <article key={productId} className="group relative">
             <Link href={`/products/${productId}`}>
@@ -51,7 +58,11 @@ function ProductsList({ products }: { products: Product[] }) {
               </Card>
             </Link>
             <div className="absolute bottom-8 right-8 z-5">
-              <FavoriteToggleButton productId={productId} />
+              <FavoriteToggleButton
+                productId={productId}
+                fav={fav}
+                email={email}
+              />
             </div>
           </article>
         );
