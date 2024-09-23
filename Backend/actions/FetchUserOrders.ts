@@ -29,7 +29,8 @@ export const fetchUserOrders = async (): Promise<Order[] | null> => {
     const { data, error } = await supabase
       .from("Orders")
       .select("*")
-      .eq("email", email);
+      .eq("email", email)
+      .eq("isPaid", true);
 
     if (error) {
       console.error("Error fetching user orders:", error.message);
