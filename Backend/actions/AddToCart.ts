@@ -87,7 +87,8 @@ export const addToCart = async ({
       if (updateError) {
         throw new Error(updateError.message);
       }
-
+      revalidatePath("/cart");
+      revalidatePath("/");
       console.log(`Item quantity updated to ${updatedQuantity}:`, data);
     }
   } catch (err) {

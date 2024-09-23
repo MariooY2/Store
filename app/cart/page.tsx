@@ -10,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
 import { getFeaturedByEmailAndProductId } from "@/Backend/actions/FavoriteToggler";
-
+import CheckOut from "./CheckOut";
 import Button from "./Button";
 
 interface Product {
@@ -67,7 +67,7 @@ async function CartPage() {
   );
 
   const products = cartItemsWithDetails;
-
+  
   return (
     <>
       <SectionTitle text="Shopping Cart" />
@@ -145,11 +145,23 @@ async function CartPage() {
             <hr className="my-4" />
             <div className="flex justify-between font-bold text-lg">
               <span>Total</span>
-              <span>{formatCurrency(totalPrice + 500)}</span>
+              <span>{formatCurrency(totalPrice )}</span>
             </div>
-            <button className="mt-4 w-full py-2 bg-blue-600 text-white rounded-lg">
-              Checkout
-            </button>
+            <div className="flex justify-center items-center p-5">
+              <CheckOut
+                email={email}
+                products={products
+                  .filter((item) => item.product !== null)
+                  .map((item) => ({
+                    id: item.product!.id,
+                    name: item.product!.name,
+                    price: item.product!.price,
+                    quantity: item.quantity,
+                    image:item?.product?.image
+                  }))}
+                total={totalPrice + 500}
+              />
+            </div>
           </div>
         </div>
       </div>

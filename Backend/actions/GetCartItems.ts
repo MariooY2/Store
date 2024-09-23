@@ -37,3 +37,37 @@ export const getCartItems = async (): Promise<CartItem[] | null> => {
     return null;
   }
 };
+
+export const deleteCartItems = async (): Promise<boolean> => {
+  try {
+    const user = await currentUser();
+    if (!user) {
+      console.error("User not logged in");
+      return false;
+    }
+
+    // Extract the user's email
+    const email = user.primaryEmailAddress?.emailAddress;
+    if (!email) {
+      console.error("User email not found");
+      return false;
+    }
+
+    // Delete all cart items for the user based on email
+    const { error } = await supabase
+      .from("Cart")
+      .delete()
+      .eq("email", email);
+
+    if (error) {
+      console.error("Error deleting cart items:", error.message);
+      return false;
+    }
+
+    console.log("Cart items successfully deleted for user:", email);
+    return true;
+  } catch (err) {
+    console.error("Unexpected error deleting cart items:", err);
+    return false;
+  }
+};

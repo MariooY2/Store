@@ -1,12 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["images.pexels.com"],
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "images.pexels.com",
+        pathname: "/**", // Matches any image from the pexels domain
+      },
+      {
+        protocol: "https",
         hostname: "wmongmxyifwtvsmqzgzg.supabase.co",
-        pathname: "/storage/v1/object/public/**",
+        pathname: "/storage/v1/object/public/**", // Matches any image in the supabase storage bucket
       },
     ],
   },

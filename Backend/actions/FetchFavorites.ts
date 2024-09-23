@@ -1,4 +1,3 @@
-"use server";
 import supabase from "../supabase";
 import { currentUser } from "@clerk/nextjs/server";
 
