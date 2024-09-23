@@ -12,8 +12,8 @@ export const GET = async (req: NextRequest) => {
     const session = await stripe.checkout.sessions.retrieve(session_id);
     const orderId = session.metadata?.orderId;
     if (session.status === "complete") {
-      updateOrderStatus(Number(orderId));
-      deleteCartItems();
+      await deleteCartItems();
+      await updateOrderStatus(Number(orderId));
     }
   } catch (err) {
     console.log(err);
